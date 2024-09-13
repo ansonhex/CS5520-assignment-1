@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import { Dimensions } from "react-native";
 import { useState } from "react";
 import Checkbox from "expo-checkbox";
+import ResetButton from "./ResetButton";
 
 const screenWidth = Dimensions.get("window").width; // Get the width of the screen
 
@@ -10,6 +11,14 @@ export default function Card() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [isChecked, setIsChecked] = useState(false);
+
+  const resetInputs = () => {
+    // Reset the input fields
+    setName("");
+    setEmail("");
+    setPhone("");
+    setIsChecked(false);
+  };
 
   return (
     <View style={styles.card}>
@@ -50,6 +59,8 @@ export default function Card() {
           I'm not a robot
         </Text>
       </View>
+
+    <ResetButton onPress={resetInputs} />
     </View>
   );
 }
@@ -84,6 +95,7 @@ const styles = StyleSheet.create({
   checkboxSection: {
     flexDirection: "row",
     alignItems: "center",
+    marginTop: 10,
   },
   checkbox: {
     marginLeft: 10,
