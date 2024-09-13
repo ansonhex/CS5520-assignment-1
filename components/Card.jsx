@@ -3,6 +3,7 @@ import { Dimensions } from "react-native";
 import { useState } from "react";
 import Checkbox from "expo-checkbox";
 import ResetButton from "./ResetButton";
+import RegisterButton from "./RegisterButton";
 
 const screenWidth = Dimensions.get("window").width; // Get the width of the screen
 
@@ -18,6 +19,27 @@ export default function Card() {
     setEmail("");
     setPhone("");
     setIsChecked(false);
+  };
+
+  // validates input for registration
+  const validateInputs = () => {
+    if (name === "" || email === "" || phone === "") {
+      alert("Please fill in all fields.");
+      return false;
+    }
+
+    if (!isChecked) {
+      alert("Please verify that you are not a robot.");
+      return false;
+    }
+    return true;
+  };
+
+  // handle register
+  const handleRegister = () => {
+    if (validateInputs()) {
+      alert("Registration successful!");
+    }
   };
 
   return (
@@ -60,7 +82,11 @@ export default function Card() {
         </Text>
       </View>
 
-    <ResetButton onPress={resetInputs} />
+      {/* Reset and Register buttons */}
+      <View style={styles.buttonContainer}>
+        <ResetButton onPress={resetInputs} />
+        <RegisterButton onPress={handleRegister} isEnabled={isChecked} />
+      </View>
     </View>
   );
 }
@@ -100,5 +126,10 @@ const styles = StyleSheet.create({
   checkbox: {
     marginLeft: 10,
     marginVertical: 10,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
   },
 });

@@ -13,7 +13,7 @@ export default ResetButton
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "#e9d9fc",
+    backgroundColor: "#f06388",
     padding: 10,
     borderRadius: 5,
     marginVertical: 20,
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonText: {
-    color: "#000",
+    color: "#fff",
     fontWeight: "bold",
   }
 })
