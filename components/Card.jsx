@@ -13,6 +13,19 @@ export default function Card() {
   const [phone, setPhone] = useState("");
   const [isChecked, setIsChecked] = useState(false);
 
+  // Error messages
+  const [emailError, setEmailError] = useState("");
+
+  const validateEmail = (newEmail) => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (newEmail.length > 0 && !emailRegex.test(newEmail)) {
+      setEmailError("Please enter a valid email address.");
+    } else {
+      setEmailError("");
+    }
+    setEmail(newEmail);
+  };
+
   const resetInputs = () => {
     // Reset the input fields
     setName("");
@@ -56,11 +69,11 @@ export default function Card() {
       <Text style={styles.label}>Email Address: </Text>
       <TextInput
         style={styles.input}
-        onChangeText={(newEmail) => {
-          setEmail(newEmail);
-        }}
+        onChangeText={validateEmail}
         value={email}
       />
+
+      {emailError ? <Text style={{ color: "red" }}>{emailError}</Text> : null}
 
       <Text style={styles.label}>Phone Number: </Text>
       <TextInput
@@ -132,4 +145,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     marginTop: 10,
   },
+  errorText: {
+    color: "red",
+    fontSize: 12,
+  }
 });
