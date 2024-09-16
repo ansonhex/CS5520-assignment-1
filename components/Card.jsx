@@ -38,6 +38,16 @@ export default function Card() {
     setEmail(newEmail);
   };
 
+const validatePhone = (newPhone) => {
+    const phoneRegex = /^\d{9}[2-9]$/;
+    if (newPhone.length > 0 && !phoneRegex.test(newPhone)) {
+      setPhoneError("Phone number must be 10 digits and end with a number between 2~9.");
+    } else {
+      setPhoneError("");
+    }
+    setPhone(newPhone);
+  }
+
   const resetInputs = () => {
     // Reset the input fields
     setName("");
@@ -94,11 +104,11 @@ export default function Card() {
       <Text style={styles.label}>Phone Number: </Text>
       <TextInput
         style={styles.input}
-        onChangeText={(newPhone) => {
-          setPhone(newPhone);
-        }}
+        onChangeText={validatePhone}
         value={phone}
       />
+
+      {phoneError ? <Text style={styles.errorText}>{phoneError}</Text> : null}
 
       <View style={styles.checkboxSection}>
         <Checkbox
