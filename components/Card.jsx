@@ -68,6 +68,12 @@ const validatePhone = (newPhone) => {
       return false;
     }
 
+    // check any error messages
+    if (nameError || emailError || phoneError) {
+      alert("Please correct the errors in the form.");
+      return false;
+    }
+
     if (!isChecked) {
       alert("Please verify that you are not a robot.");
       return false;
