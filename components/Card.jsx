@@ -14,7 +14,19 @@ export default function Card() {
   const [isChecked, setIsChecked] = useState(false);
 
   // Error messages
+  const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
+  const [phoneError, setPhoneError] = useState("");
+
+  const validateName = (newName) => {
+    nameRegex = /^[^0-9\s]+$/;
+    if (newName.length > 0 && !nameRegex.test(newName)) {
+      setNameError("Name must not be numeric and must contain more than one character.");
+    } else {
+      setNameError("");
+    }
+    setName(newName);
+  };
 
   const validateEmail = (newEmail) => {
     const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -32,6 +44,11 @@ export default function Card() {
     setEmail("");
     setPhone("");
     setIsChecked(false);
+
+    // Reset the error messages
+    setNameError("");
+    setEmailError("");
+    setPhoneError("");
   };
 
   // validates input for registration
@@ -60,11 +77,10 @@ export default function Card() {
       <Text style={styles.label}>Name</Text>
       <TextInput
         style={styles.input}
-        onChangeText={(newName) => {
-          setName(newName);
-        }}
+        onChangeText={validateName}
         value={name}
       />
+      {nameError ? <Text style={styles.errorText}>{nameError}</Text> : null}
 
       <Text style={styles.label}>Email Address: </Text>
       <TextInput
@@ -73,7 +89,7 @@ export default function Card() {
         value={email}
       />
 
-      {emailError ? <Text style={{ color: "red" }}>{emailError}</Text> : null}
+      {emailError ? <Text style={styles.errorText}>{emailError}</Text> : null}
 
       <Text style={styles.label}>Phone Number: </Text>
       <TextInput
@@ -148,5 +164,5 @@ const styles = StyleSheet.create({
   errorText: {
     color: "red",
     fontSize: 12,
-  }
+  },
 });
