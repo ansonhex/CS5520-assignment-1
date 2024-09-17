@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Modal, Button } from "react-native";
 import React from "react";
+import CustomButton from "../components/CustomButton";
 
 const Confirm = ({ visible, onClose, onContinue, userInfo }) => {
   return (
@@ -16,8 +17,8 @@ const Confirm = ({ visible, onClose, onContinue, userInfo }) => {
 
           {/* Buttons to go back or continue */}
           <View style={styles.buttonContainer}>
-            <Button title="Go Back" onPress={onClose} />
-            <Button title="Continue" onPress={onContinue} />
+            <CustomButton title="Go Back" onPress={onClose} />
+            <CustomButton title="Continue" onPress={onContinue} color="#6e8bfe"/>
           </View>
         </View>
       </View>
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   card: {
-    padding: 20,
+    padding: 15,
     borderRadius: 10,
     width: "100%",
     alignItems: "flex-start",
@@ -62,7 +63,6 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 20,
     width: "100%",
   },
 });

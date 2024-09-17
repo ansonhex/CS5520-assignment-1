@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TextInput } from "react-native";
 import { Dimensions } from "react-native";
 import { useState } from "react";
 import Checkbox from "expo-checkbox";
-import ResetButton from "./ResetButton";
+import CustomButton from "./CustomButton";
 import RegisterButton from "./RegisterButton";
 import Confirm from "../screens/Confirm";
 
@@ -25,7 +25,9 @@ export default function Card() {
   const validateName = (newName) => {
     nameRegex = /^[^0-9\s]+$/;
     if (newName.length > 0 && !nameRegex.test(newName)) {
-      setNameError("Name must not be numeric and must contain more than one character.");
+      setNameError(
+        "Name must not be numeric and must contain more than one character."
+      );
     } else {
       setNameError("");
     }
@@ -42,15 +44,17 @@ export default function Card() {
     setEmail(newEmail);
   };
 
-const validatePhone = (newPhone) => {
+  const validatePhone = (newPhone) => {
     const phoneRegex = /^\d{9}[2-9]$/;
     if (newPhone.length > 0 && !phoneRegex.test(newPhone)) {
-      setPhoneError("Phone number must be 10 digits and end with a number between 2~9.");
+      setPhoneError(
+        "Phone number must be 10 digits and end with a number between 2~9."
+      );
     } else {
       setPhoneError("");
     }
     setPhone(newPhone);
-  }
+  };
 
   const resetInputs = () => {
     // Reset the input fields
@@ -96,8 +100,8 @@ const validatePhone = (newPhone) => {
   // handle continue
   const handleContinue = () => {
     setIsConfirmVisible(false);
-    // game logic ... 
-  }
+    // game logic ...
+  };
 
   return (
     <View style={styles.card}>
@@ -140,7 +144,7 @@ const validatePhone = (newPhone) => {
 
       {/* Reset and Register buttons */}
       <View style={styles.buttonContainer}>
-        <ResetButton onPress={resetInputs} />
+        <CustomButton onPress={resetInputs} title="Reset" />
         <RegisterButton onPress={handleRegister} isEnabled={isChecked} />
       </View>
 
@@ -151,7 +155,6 @@ const validatePhone = (newPhone) => {
         onContinue={handleContinue}
         userInfo={{ name, email, phone }}
       />
-
     </View>
   );
 }
