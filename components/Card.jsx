@@ -4,6 +4,7 @@ import { useState } from "react";
 import Checkbox from "expo-checkbox";
 import ResetButton from "./ResetButton";
 import RegisterButton from "./RegisterButton";
+import Confirm from "../screens/Confirm";
 
 const screenWidth = Dimensions.get("window").width; // Get the width of the screen
 
@@ -17,6 +18,9 @@ export default function Card() {
   const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneError, setPhoneError] = useState("");
+
+  // modal control
+  const [isConfirmVisible, setIsConfirmVisible] = useState(false);
 
   const validateName = (newName) => {
     nameRegex = /^[^0-9\s]+$/;
@@ -84,9 +88,16 @@ const validatePhone = (newPhone) => {
   // handle register
   const handleRegister = () => {
     if (validateInputs()) {
-      alert("Registration successful!");
+      // alert("Registration successful!");
+      setIsConfirmVisible(true);
     }
   };
+
+  // handle continue
+  const handleContinue = () => {
+    setIsConfirmVisible(false);
+    // game logic ... 
+  }
 
   return (
     <View style={styles.card}>
@@ -132,6 +143,15 @@ const validatePhone = (newPhone) => {
         <ResetButton onPress={resetInputs} />
         <RegisterButton onPress={handleRegister} isEnabled={isChecked} />
       </View>
+
+      {/* Confirm modal */}
+      <Confirm
+        visible={isConfirmVisible}
+        onClose={() => setIsConfirmVisible(false)}
+        onContinue={handleContinue}
+        userInfo={{ name, email, phone }}
+      />
+
     </View>
   );
 }
