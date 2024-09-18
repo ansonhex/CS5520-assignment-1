@@ -2,11 +2,11 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import Card from "../components/Card";
 
-export default function Start() {
+export default function Start({ onStart }) {
   return (
     <View style={styles.container}>
       <Text style={styles.welcomeText}>Welcome</Text>
-      <Card />
+      <Card onRegister={onStart} />
     </View>
   );
 }

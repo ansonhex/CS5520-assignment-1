@@ -1,68 +1,49 @@
-import { StyleSheet, Text, View, Modal, Button } from "react-native";
 import React from "react";
+import { View, Text, StyleSheet, Modal } from "react-native";
 import CustomButton from "../components/CustomButton";
 
-const Confirm = ({ visible, onClose, onContinue, userInfo }) => {
+export default function Confirm({ visible, userInfo, onContinue, onClose }) {
   return (
-    <Modal transparent={true} visible={visible} animationType="fade">
-      <View style={styles.modalContent}>
-        <View style={styles.modalBackground}>
-          <Text style={styles.title}>Confirm Your Information</Text>
-          <View style={styles.card}>
-            <Text>Name: {userInfo.name}</Text>
-            <Text>Email: {userInfo.email}</Text>
-            <Text>Phone: {userInfo.phone}</Text>
-            <Text>If it's not correct, please go back and edit them</Text>
-          </View>
-
-          {/* Buttons to go back or continue */}
+    <Modal visible={visible} transparent={true} animationType="fade">
+      <View style={styles.modalBackground}>
+        <View style={styles.card}>
+          <Text style={styles.title}>Confirm your details</Text>
+          <Text>Name: {userInfo?.name}</Text>
+          <Text>Email: {userInfo?.email}</Text>
+          <Text>Phone: {userInfo?.phone}</Text>
           <View style={styles.buttonContainer}>
-            <CustomButton title="Go Back" onPress={onClose} />
-            <CustomButton title="Continue" onPress={onContinue} color="#6e8bfe"/>
+            <CustomButton onPress={onClose} title="Go Back" />
+            <CustomButton onPress={onContinue} title="Continue" color="#6e8bfe" />
           </View>
         </View>
       </View>
     </Modal>
   );
-};
-
-export default Confirm;
+}
 
 const styles = StyleSheet.create({
-  modalContent: {
+  modalBackground: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    padding: 40,
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  modalBackground: {
-    backgroundColor: "#fff",
+  card: {
+    width: "80%",
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    width: "100%",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 5,
-      height: 5,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 2,
+    alignItems: "center",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
   },
-  card: {
-    padding: 15,
-    borderRadius: 10,
-    width: "100%",
-    alignItems: "flex-start",
-  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     width: "100%",
+    marginTop: 20,
   },
 });
