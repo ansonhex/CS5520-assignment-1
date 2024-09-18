@@ -13,7 +13,11 @@ export default function Confirm({ visible, userInfo, onContinue, onClose }) {
           <Text>Phone: {userInfo?.phone}</Text>
           <View style={styles.buttonContainer}>
             <CustomButton onPress={onClose} title="Go Back" />
-            <CustomButton onPress={onContinue} title="Continue" color="#6e8bfe" />
+            <CustomButton
+              onPress={onContinue}
+              title="Continue"
+              color="#6e8bfe"
+            />
           </View>
         </View>
       </View>

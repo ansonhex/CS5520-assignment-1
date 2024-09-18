@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TextInput, Dimensions } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Checkbox from "expo-checkbox";
 import CustomButton from "./CustomButton";
 import RegisterButton from "./RegisterButton";

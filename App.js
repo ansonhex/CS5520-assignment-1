@@ -4,10 +4,11 @@ import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
 import Start from "./screens/Start";
 import Confirm from "./screens/Confirm";
+import Game from "./screens/Game";
 
 export default function App() {
-  // State to control the screen and user info
   const [userInfo, setUserInfo] = useState(null);
+  const [screen, setScreen] = useState("start");
   const [isConfirmVisible, setIsConfirmVisible] = useState(false);
 
   const handleRegister = (userData) => {
@@ -17,28 +18,37 @@ export default function App() {
 
   const handleContinue = () => {
     setIsConfirmVisible(false);
-    // Transition to the next screen (e.g., game) after confirming
-    
+    setScreen("game"); // Transition to Game screen
   };
 
   const handleGoBack = () => {
-    setIsConfirmVisible(false);
+    console.log(userInfo);
+    setIsConfirmVisible(false); // Hide Confirm modal
+  };
+
+  const handleRestart = () => {
+    setScreen("start"); // Reset to Start screen
+    setUserInfo(null);
   };
 
   return (
     <View style={styles.container}>
       <LinearGradient
-        // Background Linear Gradient
         colors={["rgba(0,0,0,0.8)", "transparent"]}
         style={styles.background}
       />
-      <Start onStart={handleRegister} />
+      {screen === "start" && (
+        <Start onStart={handleRegister} />
+      )}
       <Confirm
         visible={isConfirmVisible}
         userInfo={userInfo}
         onClose={handleGoBack}
         onContinue={handleContinue}
       />
+      {screen === "game" && (
+        <Game phoneNumber={userInfo?.phone} onRestart={handleRestart} />
+      )}
       <StatusBar style="auto" />
     </View>
   );
