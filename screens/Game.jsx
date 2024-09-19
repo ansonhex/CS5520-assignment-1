@@ -24,6 +24,8 @@ const Game = ({ phoneNumber, onRestart }) => {
   const lastDigit = phoneNumber % 10;
   const [isWin, setIsWin] = useState(false); // for win/lose condition
 
+  console.log(targetNumber);
+
   useEffect(() => {
     chooseNewTarget(); // pick a new target number
   }, [phoneNumber]);
@@ -51,6 +53,7 @@ const Game = ({ phoneNumber, onRestart }) => {
       setIsWin(false); // reset win condition
       setHint("");
       setGuessResult("");
+      setAttemptsUsed(0);
     }
   };
 
@@ -62,12 +65,14 @@ const Game = ({ phoneNumber, onRestart }) => {
       return;
     }
 
+    // update attempts used even if the guess is invalid
+    setAttemptsUsed(prev => prev + 1);
+
     if (guessNumber === targetNumber) {
       setGameStatus("finished");
-      setIsWin(true); // mark as win
+      setIsWin(true);
     } else {
       setAttemptsLeft(attemptsLeft - 1);
-      setAttemptsUsed(4 - attemptsLeft); // Track attempts used
       setGuessResult(guessNumber < targetNumber ? "higher" : "lower");
       setGameStatus("guessing");
       if (attemptsLeft - 1 === 0) {
@@ -182,7 +187,7 @@ const Game = ({ phoneNumber, onRestart }) => {
             <>
               <Text style={styles.textLabel}>You guessed correctly.</Text>
               <Text style={styles.otherText}>
-                Attempts used: {4 - attemptsLeft}
+                Attempts used: {attemptsUsed}
               </Text>
               <Image
                 source={{
