@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Checkbox from "expo-checkbox";
 import CustomButton from "./CustomButton";
 import RegisterButton from "./RegisterButton";
+import colors from "../styles/colors";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -114,11 +115,11 @@ export default function Card({ onRegister }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     marginVertical: 20,
     borderRadius: 10,
     padding: 20,
-    shadowColor: "#000",
+    shadowColor: colors.backgroundLight,
     shadowOffset: { width: 5, height: 5 },
     shadowOpacity: 0.25,
     shadowRadius: 2,
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
     padding: 5,
     marginVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomColor: colors.grey,
   },
   checkboxSection: {
     flexDirection: "row",

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import CustomButton from "../components/CustomButton";
+import colors from "../styles/colors";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -169,7 +170,7 @@ const Game = ({ phoneNumber, onRestart }) => {
                 <CustomButton
                   title="Try again"
                   onPress={tryAgain}
-                  color="#6e8bfe"
+                  color={colors.primary}
                 />
                 {!isLastAttempt && (
                   <CustomButton
@@ -200,7 +201,7 @@ const Game = ({ phoneNumber, onRestart }) => {
               <CustomButton
                 title="New Game"
                 onPress={chooseNewTarget}
-                color="#6e8bfe"
+                color={colors.primary}
               />
             </>
           ) : (
@@ -220,7 +221,7 @@ const Game = ({ phoneNumber, onRestart }) => {
               <CustomButton
                 title="New Game"
                 onPress={chooseNewTarget}
-                color="#6e8bfe"
+                color={colors.primary}
               />
             </>
           )}
@@ -239,11 +240,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   card: {
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     marginVertical: 20,
     borderRadius: 10,
     padding: 20,
-    shadowColor: "#000",
+    shadowColor: colors.backgroundLight,
     shadowOffset: { width: 5, height: 5 },
     shadowOpacity: 0.25,
     shadowRadius: 2,
@@ -269,14 +270,14 @@ const styles = StyleSheet.create({
   },
   input: {
     borderBottomWidth: 1,
-    color: "black",
+    color: colors.text,
     fontSize: 16,
     padding: 10,
     marginVertical: 10,
     width: "80%",
   },
   otherText: {
-    color: "grey",
+    color: colors.grey,
     fontSize: 16,
     marginVertical: 5,
   },

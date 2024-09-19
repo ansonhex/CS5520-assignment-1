@@ -1,17 +1,23 @@
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import colors from "../styles/colors";
 
 const RegisterButton = ({ onPress, isEnabled }) => {
   return (
     <TouchableOpacity
       style={[
         styles.button,
-        { backgroundColor: isEnabled ? "#6e8bfe" : "#e5e5e5" },
+        { backgroundColor: isEnabled ? colors.primary : colors.disabled },
       ]}
       onPress={onPress}
       disabled={!isEnabled}
     >
-      <Text style={[styles.buttonText, { color: isEnabled ? "#fff" : "#a6a6a6" }]}>
+      <Text 
+        style={[
+          styles.buttonText, 
+          { color: isEnabled ? colors.textLight : colors.disabledText }
+        ]}
+      >
         Register
       </Text>
     </TouchableOpacity>

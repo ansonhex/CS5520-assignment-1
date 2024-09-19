@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import Start from "./screens/Start";
 import Confirm from "./screens/Confirm";
 import Game from "./screens/Game";
+import colors from "./styles/colors";
 
 export default function App() {
   const [userInfo, setUserInfo] = useState(null);
@@ -59,7 +60,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.background,
     alignItems: "center",
     justifyContent: "center",
   },

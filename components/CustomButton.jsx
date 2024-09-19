@@ -1,9 +1,10 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import React from 'react'
+import colors from "../styles/colors";
 
 const CustomButton = ({ onPress, title, color }) => {
   return (
-    <TouchableOpacity style={[styles.button, { backgroundColor: color || "#f06388" }]} onPress={onPress}>
+    <TouchableOpacity style={[styles.button, { backgroundColor: color || colors.secondary }]} onPress={onPress}>
       <Text style={styles.buttonText}>{ title }</Text>
     </TouchableOpacity>
   )
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   buttonText: {
-    color: "#fff",
+    color: colors.textLight,
     fontWeight: "bold",
     textAlign: "center",
   }
