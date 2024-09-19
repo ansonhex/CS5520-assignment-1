@@ -40,6 +40,8 @@ export default function App() {
       {screen === "start" && (
         <Start onStart={handleRegister} />
       )}
+
+      {/* Overlay on top of Start, but not rerender */}
       <Confirm
         visible={isConfirmVisible}
         userInfo={userInfo}
