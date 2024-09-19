@@ -70,17 +70,19 @@ const Game = ({ phoneNumber, onRestart }) => {
       )}
 
       {gameStatus === "playing" && (
-        <View style={styles.gameContainer}>
-          <Text style={styles.timerText}>Time Left: {timeLeft} seconds</Text>
-          <Text style={styles.attemptsText}>Attempts Left: {attemptsLeft}</Text>
+        <View style={styles.card}>
+          <Text style={styles.textLabel}>
+            Guess a number between 1 & 100 that is a multiple of {lastDigit}.
+          </Text>
           <TextInput
             style={styles.input}
             value={guess}
             onChangeText={(text) => setGuess(text)}
             keyboardType="numeric"
-            placeholder="Enter your guess"
           />
-          <CustomButton title="Submit guess" onPress={handleGuess} />
+          <Text style={styles.otherText}>Attempts Left: {attemptsLeft}</Text>
+          <Text style={styles.otherText}>Time Left: {timeLeft} seconds</Text>
+          <CustomButton title="Submit guess" onPress={handleGuess} color="#6e8bfe"/>
         </View>
       )}
 
@@ -117,6 +119,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
     width: screenWidth * 0.9,
+    alignItems: "center",
   },
   textLabel: {
     fontSize: 18,
@@ -135,20 +138,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginVertical: 10,
+    borderBottomWidth: 1,
+    color: "black",
+    fontSize: 16,
     padding: 10,
-    width: 200,
-    textAlign: "center",
-  },
-  timerText: {
-    fontSize: 20,
     marginVertical: 10,
   },
-  attemptsText: {
-    fontSize: 18,
-    marginBottom: 10,
+  otherText: {
+    color: "grey",
+    fontSize: 16,
+    marginVertical: 5,
   },
 });
