@@ -24,10 +24,11 @@ const styles = StyleSheet.create({
   button: {
     padding: 10,
     borderRadius: 5,
-    marginVertical: 20,
+    marginVertical: 10,
     width: 100,
     textAlign: "center",
     alignItems: "center",
+    justifyContent: "center",
   },
   buttonText: {
     fontWeight: "bold",
