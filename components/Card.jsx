@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   errorText: {
-    color: "red",
+    color: colors.red,
     fontSize: 12,
   },
 });

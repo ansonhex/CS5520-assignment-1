@@ -7,6 +7,7 @@ const colors = {
   background: "#fff",
   backgroundLight: "#000",
   grey: "grey",
+  red: "red",
   disabled: "#e5e5e5",
   disabledText: "#a6a6a6",
 };
