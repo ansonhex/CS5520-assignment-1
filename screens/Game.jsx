@@ -118,9 +118,15 @@ const Game = ({ phoneNumber, onRestart }) => {
 
       {(gameStatus === "playing" || gameStatus === "guessing") && (
         <View style={styles.card}>
-          <Text style={styles.textLabel}>
-            Guess a number between 1 & 100 that is a multiple of {lastDigit}.
-          </Text>
+          {/* Only in playing screen to display this text */}
+          {gameStatus === "playing" && (
+            <>
+              <Text style={styles.textLabel}>
+                Guess a number between 1 & 100 that is a multiple of {lastDigit}
+                .
+              </Text>
+            </>
+          )}
           {gameStatus === "playing" && (
             <>
               <TextInput
@@ -147,6 +153,7 @@ const Game = ({ phoneNumber, onRestart }) => {
               />
             </>
           )}
+
           {gameStatus === "guessing" && (
             <>
               <Text style={styles.textLabel}>You did not guess correctly!</Text>
@@ -173,14 +180,14 @@ const Game = ({ phoneNumber, onRestart }) => {
         <View style={styles.card}>
           {isWin ? (
             <>
-              <Text style={styles.textLabel}>
-                Congratulations! You guessed correctly.
-              </Text>
+              <Text style={styles.textLabel}>You guessed correctly.</Text>
               <Text style={styles.otherText}>
                 Attempts used: {4 - attemptsLeft}
               </Text>
               <Image
-                source={{ uri: `https://picsum.photos/id/${targetNumber}/100/100` }}
+                source={{
+                  uri: `https://picsum.photos/id/${targetNumber}/100/100`,
+                }}
                 style={styles.image}
               />
               <CustomButton
