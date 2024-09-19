@@ -14,30 +14,31 @@ const screenWidth = Dimensions.get("window").width;
 
 const Game = ({ phoneNumber, onRestart }) => {
   const [attemptsLeft, setAttemptsLeft] = useState(4);
-  const [timeLeft, setTimeLeft] = useState(60); // 60 seconds
+  const [timeLeft, setTimeLeft] = useState(60);
   const [guess, setGuess] = useState("");
   const [targetNumber, setTargetNumber] = useState(null);
   const [gameStatus, setGameStatus] = useState("start"); // start, playing, guessing, finished
   const [hint, setHint] = useState("");
   const [guessResult, setGuessResult] = useState("");
-  const [attemptsUsed, setAttemptsUsed] = useState(0); // Track attempts used
+  const [attemptsUsed, setAttemptsUsed] = useState(0);
   const lastDigit = phoneNumber % 10;
-  const [isWin, setIsWin] = useState(false); // for win/lose condition
+  const [isWin, setIsWin] = useState(false);
+  const [isLastAttempt, setIsLastAttempt] = useState(false);
 
   console.log(targetNumber);
 
   useEffect(() => {
-    chooseNewTarget(); // pick a new target number
+    chooseNewTarget();
   }, [phoneNumber]);
 
   useEffect(() => {
     if (timeLeft > 0 && gameStatus === "playing" && attemptsLeft > 0) {
       const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
       return () => clearTimeout(timer);
-    } else if (timeLeft === 0 || attemptsLeft === 0) {
+    } else if (timeLeft === 0 || (attemptsLeft === 0 && !isLastAttempt)) {
       setGameStatus("finished");
     }
-  }, [timeLeft, gameStatus, attemptsLeft]);
+  }, [timeLeft, gameStatus, attemptsLeft, isLastAttempt]);
 
   const chooseNewTarget = () => {
     if (lastDigit !== 0) {
@@ -50,10 +51,11 @@ const Game = ({ phoneNumber, onRestart }) => {
       setAttemptsLeft(4);
       setTimeLeft(60);
       setGameStatus("playing");
-      setIsWin(false); // reset win condition
+      setIsWin(false);
       setHint("");
       setGuessResult("");
       setAttemptsUsed(0);
+      setIsLastAttempt(false);
     }
   };
 
@@ -65,7 +67,6 @@ const Game = ({ phoneNumber, onRestart }) => {
       return;
     }
 
-    // update attempts used even if the guess is invalid
     setAttemptsUsed(prev => prev + 1);
 
     if (guessNumber === targetNumber) {
@@ -75,8 +76,8 @@ const Game = ({ phoneNumber, onRestart }) => {
       setAttemptsLeft(attemptsLeft - 1);
       setGuessResult(guessNumber < targetNumber ? "higher" : "lower");
       setGameStatus("guessing");
-      if (attemptsLeft - 1 === 0) {
-        setGameStatus("finished");
+      if (attemptsLeft === 1) {
+        setIsLastAttempt(true);
       }
     }
     setGuess("");
@@ -97,11 +98,16 @@ const Game = ({ phoneNumber, onRestart }) => {
     setAttemptsUsed(0);
     setHint("");
     setGuessResult("");
+    setIsLastAttempt(false);
   };
 
   const tryAgain = () => {
-    setGameStatus("playing");
-    setGuessResult("");
+    if (isLastAttempt) {
+      setGameStatus("finished");
+    } else {
+      setGameStatus("playing");
+      setGuessResult("");
+    }
   };
 
   return (
@@ -123,17 +129,11 @@ const Game = ({ phoneNumber, onRestart }) => {
 
       {(gameStatus === "playing" || gameStatus === "guessing") && (
         <View style={styles.card}>
-          {/* Only in playing screen to display this text */}
           {gameStatus === "playing" && (
             <>
               <Text style={styles.textLabel}>
-                Guess a number between 1 & 100 that is a multiple of {lastDigit}
-                .
+                Guess a number between 1 & 100 that is a multiple of {lastDigit}.
               </Text>
-            </>
-          )}
-          {gameStatus === "playing" && (
-            <>
               <TextInput
                 style={styles.input}
                 value={guess}
@@ -171,10 +171,12 @@ const Game = ({ phoneNumber, onRestart }) => {
                   onPress={tryAgain}
                   color="#6e8bfe"
                 />
-                <CustomButton
-                  title="End the game"
-                  onPress={() => setGameStatus("finished")}
-                />
+                {!isLastAttempt && (
+                  <CustomButton
+                    title="End the game"
+                    onPress={() => setGameStatus("finished")}
+                  />
+                )}
               </View>
             </>
           )}
@@ -295,6 +297,6 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    marginTop: 10,
+    marginVertical: 10,
   },
 });
