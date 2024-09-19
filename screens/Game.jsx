@@ -280,10 +280,12 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   buttonContainer: {
-    flexDirection: "row",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     justifyContent: "space-around",
     width: "100%",
-    marginTop: 20,
+    marginTop: 10,
   },
   image: {
     width: 100,
