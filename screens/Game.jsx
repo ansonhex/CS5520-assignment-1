@@ -10,6 +10,7 @@ const Game = ({ phoneNumber, onRestart }) => {
   const [guess, setGuess] = React.useState("");
   const [targetNumber, setTargetNumber] = React.useState(null);
   const [gameStatus, setGameStatus] = React.useState("start"); // start, playing, finished
+  const [hint, setHint] = React.useState("");
   const lastDigit = phoneNumber % 10;
 
   useEffect(() => {
@@ -43,6 +44,15 @@ const Game = ({ phoneNumber, onRestart }) => {
       }
     }
     setGuess("");
+  };
+
+  const handleHint = () => {
+    // hint if target is in the range of 0-50 or 50-100
+    if (targetNumber < 50) {
+      setHint("The number is between 0 and 50");
+    } else {
+      setHint("The number is between 50 and 100");
+    }
   };
 
   // Starter
@@ -82,7 +92,17 @@ const Game = ({ phoneNumber, onRestart }) => {
           />
           <Text style={styles.otherText}>Attempts Left: {attemptsLeft}</Text>
           <Text style={styles.otherText}>Time Left: {timeLeft} seconds</Text>
-          <CustomButton title="Submit guess" onPress={handleGuess} color="#6e8bfe"/>
+          { hint && <Text style={styles.hintText}>{hint}</Text> }
+          <CustomButton
+            title="Use a Hint"
+            onPress={handleHint}
+            color="orange"
+          />
+          <CustomButton
+            title="Submit guess"
+            onPress={handleGuess}
+            color="#6e8bfe"
+          />
         </View>
       )}
 
@@ -149,4 +169,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginVertical: 5,
   },
+  hintText: {
+    color: "black",
+    fontWeight: "bold",
+    fontSize: 16,
+    marginVertical: 5,
+  }
 });
