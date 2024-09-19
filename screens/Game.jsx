@@ -5,6 +5,7 @@ import {
   Dimensions,
   TextInput,
   Alert,
+  Image,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import CustomButton from "../components/CustomButton";
@@ -19,11 +20,24 @@ const Game = ({ phoneNumber, onRestart }) => {
   const [gameStatus, setGameStatus] = useState("start"); // start, playing, guessing, finished
   const [hint, setHint] = useState("");
   const [guessResult, setGuessResult] = useState("");
+  const [attemptsUsed, setAttemptsUsed] = useState(0); // Track attempts used
   const lastDigit = phoneNumber % 10;
-
-  console.log(targetNumber);
+  const [isWin, setIsWin] = useState(false); // for win/lose condition
 
   useEffect(() => {
+    chooseNewTarget(); // pick a new target number
+  }, [phoneNumber]);
+
+  useEffect(() => {
+    if (timeLeft > 0 && gameStatus === "playing" && attemptsLeft > 0) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (timeLeft === 0 || attemptsLeft === 0) {
+      setGameStatus("finished");
+    }
+  }, [timeLeft, gameStatus, attemptsLeft]);
+
+  const chooseNewTarget = () => {
     if (lastDigit !== 0) {
       const multiples = [];
       for (let i = 1; i <= 100 / lastDigit; i++) {
@@ -31,17 +45,14 @@ const Game = ({ phoneNumber, onRestart }) => {
       }
       const target = multiples[Math.floor(Math.random() * multiples.length)];
       setTargetNumber(target);
+      setAttemptsLeft(4);
+      setTimeLeft(60);
+      setGameStatus("playing");
+      setIsWin(false); // reset win condition
+      setHint("");
+      setGuessResult("");
     }
-  }, [phoneNumber]);
-
-  useEffect(() => {
-    if (timeLeft > 0 && gameStatus === "playing" && attemptsLeft > 0) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-      return () => clearTimeout(timer);
-    } else if (timeLeft === 0 && gameStatus === "playing") {
-      setGameStatus("finished");
-    }
-  }, [timeLeft, gameStatus, attemptsLeft]);
+  };
 
   const handleGuess = () => {
     const guessNumber = parseInt(guess);
@@ -53,8 +64,10 @@ const Game = ({ phoneNumber, onRestart }) => {
 
     if (guessNumber === targetNumber) {
       setGameStatus("finished");
+      setIsWin(true); // mark as win
     } else {
       setAttemptsLeft(attemptsLeft - 1);
+      setAttemptsUsed(4 - attemptsLeft); // Track attempts used
       setGuessResult(guessNumber < targetNumber ? "higher" : "lower");
       setGameStatus("guessing");
       if (attemptsLeft - 1 === 0) {
@@ -76,6 +89,7 @@ const Game = ({ phoneNumber, onRestart }) => {
     setGameStatus("playing");
     setTimeLeft(60);
     setAttemptsLeft(4);
+    setAttemptsUsed(0);
     setHint("");
     setGuessResult("");
   };
@@ -113,7 +127,6 @@ const Game = ({ phoneNumber, onRestart }) => {
                 style={styles.input}
                 value={guess}
                 onChangeText={(text) => setGuess(text)}
-                // keyboardType="numeric"
               />
               <Text style={styles.otherText}>
                 Attempts Left: {attemptsLeft}
@@ -136,9 +149,9 @@ const Game = ({ phoneNumber, onRestart }) => {
           )}
           {gameStatus === "guessing" && (
             <>
-              <Text style={styles.textLabel}>You did not guess correct!</Text>
+              <Text style={styles.textLabel}>You did not guess correctly!</Text>
               <Text style={styles.textLabel}>
-                Your should guess {guessResult}.
+                You should guess {guessResult}.
               </Text>
               <View style={styles.buttonContainer}>
                 <CustomButton
@@ -158,12 +171,45 @@ const Game = ({ phoneNumber, onRestart }) => {
 
       {gameStatus === "finished" && (
         <View style={styles.card}>
-          <Text style={styles.textLabel}>
-            {attemptsLeft > 0
-              ? "Congratulations! You guessed correctly."
-              : `Game Over! The correct number was ${targetNumber}`}
-          </Text>
-          <CustomButton title="Restart" onPress={onRestart} color="#6e8bfe" />
+          {isWin ? (
+            <>
+              <Text style={styles.textLabel}>
+                Congratulations! You guessed correctly.
+              </Text>
+              <Text style={styles.otherText}>
+                Attempts used: {4 - attemptsLeft}
+              </Text>
+              <Image
+                source={{ uri: `https://picsum.photos/id/${targetNumber}/100/100` }}
+                style={styles.image}
+              />
+              <CustomButton
+                title="New Game"
+                onPress={chooseNewTarget}
+                color="#6e8bfe"
+              />
+            </>
+          ) : (
+            <>
+              <Text style={styles.textLabel}>The game is over!</Text>
+              <Image
+                source={require("../assets/sad.jpg")}
+                style={styles.image}
+              />
+              <Text style={styles.otherText}>
+                {timeLeft === 0
+                  ? "You are out of time."
+                  : attemptsLeft === 0
+                  ? "You are out of attempts."
+                  : ""}
+              </Text>
+              <CustomButton
+                title="New Game"
+                onPress={chooseNewTarget}
+                color="#6e8bfe"
+              />
+            </>
+          )}
         </View>
       )}
     </View>
@@ -231,5 +277,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     width: "100%",
     marginTop: 20,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginTop: 10,
   },
 });
