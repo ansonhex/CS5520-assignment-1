@@ -22,7 +22,7 @@ export default function App() {
   };
 
   const handleGoBack = () => {
-    console.log(userInfo);
+    // console.log(userInfo);
     setIsConfirmVisible(false); // Hide Confirm modal
   };
 
